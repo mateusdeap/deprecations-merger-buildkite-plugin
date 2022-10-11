@@ -1,0 +1,9 @@
+name: Deprecations Merger
+description: Merges you deprecation log into one.
+author: https://github.com/mateusdeap
+requirements: []
+configuration:
+  properties:
+    file_name_pattern:
+      type: string
+  additionalProperties: false

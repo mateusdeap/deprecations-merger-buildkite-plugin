@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  lint:
+    image: buildkite/plugin-linter
+    command: ['--id', 'mateusdeap/deprecations-merger']
+    volumes:
+      - ".:/plugin"
+  tests:
+    image: buildkite/plugin-tester:v3.0.1
+    volumes:
+      - ".:/plugin"

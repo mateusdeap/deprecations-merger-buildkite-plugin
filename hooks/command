@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+FILE_PATTERN="$BUILDKITE_PLUGIN_DEPRECATIONS_MERGER_FILE_NAME_PATTERN"
+
+echo "--- Downloading artifacts"
+buildkite-agent artifact download "spec/support/${FILE_PATTERN}" ./
+
+echo "--- Merging deprecation logs"
+docker \
+  --log-level "error" \
+  run \
+  --rm \
+  --volume "$(pwd):/src" \
+  elixir:1.14.0 mix local.hex --force && ./lib/deprecations_unite --path "${FILE_PATTERN}"
+
+echo "--- Uploading deprecations file"
+buildkite-agent artifact upload deprecations.json
